@@ -41,7 +41,7 @@ class rconfigMigrate2 extends Command
     {
 
         if (DB::connection()->getDatabaseName()) {
-            $this->info("Conncted sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
+            $this->info("Connected sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
         } else {
             $this->error("Could not connect sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection()->getConfig()['host'] . "'");
             $this->error("The script ends here!!");
@@ -56,19 +56,8 @@ class rconfigMigrate2 extends Command
         }
 
 
-        $v5devices = DB::connection()->select('select * from devices');
 
-        foreach ($v5devices as $v5device) {
-                try {
-                    $array['device_id'] = $v5device->id;
-                    $array['template_id'] = $v5device->device_template;
-                    DB::connection()->table('device_template')->insert($array);
-                } catch (\Exception $e) {
-                    $this->error($e->getMessage());
-                }
-        }
 
-        $this->info('TEmplate references per devices applied correctly.');
         return 0;
     }
 }

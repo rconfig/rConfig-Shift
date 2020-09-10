@@ -59,7 +59,6 @@ class rconfigMigrate extends Command
         $v3PwEncryption = DB::connection('mysql2')->select('select passwordEncryption from settings'); // rconfigv3
         $v3PwEncryptionSet = $v3PwEncryption[0]->passwordEncryption;
 
-
 /** TEMPLATES */
         // Bring over templates
         $v3templates = DB::connection('mysql2')->select('select * from templates where status = 1'); // rconfigv3
@@ -156,7 +155,7 @@ class rconfigMigrate extends Command
         $new_password = Str::random();
 
         foreach ($v3users as $v3user) {
-            if($v3user->email === 'admin@domain.com'){
+            if ($v3user->email === 'admin@domain.com') {
                 continue;
             }
             $temp_arry['name'] = $v3user->username;
@@ -247,17 +246,25 @@ class rconfigMigrate extends Command
         }
 
         $v3PwEncryptionSet === 1 ? $this->error('Password Encryption was enabled in V3!') : '';
-        $v3PwEncryptionSet === 1 ? $this->error("Devices passwords are not imported, and new random passwords were generated. All devices passwords were set to " . $new_device_password) : '';;
-        $v3PwEncryptionSet === 1 ? $this->error("Please change all devices password immediatley! ") : '';;
+        $v3PwEncryptionSet === 1 ? $this->error("Devices passwords are not imported, and new random passwords were generated. All devices passwords were set to " . $new_device_password) : '';
+        $v3PwEncryptionSet === 1 ? $this->error("Please change all devices password immediatley! ") : '';
         $this->info("Devices imported to v5 Database...");
-/** DEVICES */
 
-        // $devices = DB::connection('mysql2')->select('select * from nodes'); // rconfigv3
-        // dd($devices);
+/** Update Templates References */
+        $v5devices = DB::connection()->select('select * from devices');
 
-        // Bring over commands & cmdcatTbl
-        // Bring over vendors
-        // Bring over nodes to devices?
+        foreach ($v5devices as $v5device) {
+            try {
+                $array['device_id'] = $v5device->id;
+                $array['template_id'] = $v5device->device_template;
+                DB::connection()->table('device_template')->insert($array);
+            } catch (\Exception $e) {
+                $this->error($e->getMessage());
+            }
+        }
+        $this->info('TEmplate references per devices applied correctly.');
+
+/**Update  Templates References */
 
         $this->info(' ');
         $this->info('--- Post Migration Manual tasks ---');
@@ -267,4 +274,3 @@ class rconfigMigrate extends Command
         return 0;
     }
 }
-
