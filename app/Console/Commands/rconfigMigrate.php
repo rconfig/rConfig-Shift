@@ -43,7 +43,7 @@ class rconfigMigrate extends Command
         if (DB::connection()->getDatabaseName()) {
             $this->info("Conncted sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
         } else {
-            $this->error("Could not connect sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
+            $this->error("Could not connect sucessfully to database '" . DB::connection()->getDatabaseName() . "' on server '" . DB::connection()->getConfig()['host'] . "'");
             $this->error("The script ends here!!");
             return;
         }
@@ -214,7 +214,6 @@ class rconfigMigrate extends Command
             $temp_arry['status'] = null;
             $temp_arry1['vendorId'] = $v3node->vendorId;
             $temp_arry['created_at'] = \Carbon\Carbon::now();
-
 
             try {
                 $device_id = DB::connection()->table('devices')->insert($temp_arry);
