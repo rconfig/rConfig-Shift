@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class rconfigMigrate extends Command
+class rconfigMigrate2 extends Command
 {
     /**
      * The name and signature of the console command.
@@ -56,7 +56,7 @@ class rconfigMigrate extends Command
         }
 
 
-        $v5devices = DB::connection()->select('select * from devices'); // rconfigv3
+        $v5devices = DB::connection()->select('select * from devices');
 
         foreach ($v5devices as $v5device) {
                 try {
