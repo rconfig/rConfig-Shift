@@ -1,6 +1,6 @@
 # Project Title
 
-Tool to migration database and other settings from rConfig V3 to rConfig V5. This tool must only be used by rConfig support team.
+Tool to migration database and other settings from rConfig V3 to rConfig V7. This tool must only be used by rConfig support team.
 
 ## Description
 
