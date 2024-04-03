@@ -48,7 +48,7 @@ class rconfigMigrate2 extends Command
             return;
         }
         if (DB::connection('mysql2')->getDatabaseName()) {
-            $this->info("Conncted sucessfully to V3 database '" . DB::connection('mysql2')->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
+            $this->info("Connected sucessfully to V3 database '" . DB::connection('mysql2')->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
         } else {
             $this->error("Could not connect sucessfully to V3 database '" . DB::connection('mysql2')->getDatabaseName() . "' on server '" . DB::connection('mysql2')->getConfig()['host'] . "'");
             $this->error("The script ends here!!");
